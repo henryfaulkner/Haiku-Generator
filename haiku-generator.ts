@@ -46,7 +46,12 @@ function getWordWithNumSyllables(
   syllableMap: Object
 ): string {
   const matchingWords: string[] = syllableMap[numSyllables];
-  const randNum: number = Math.floor(Math.random() * matchingWords.length);
+  let randNum: number = Math.floor(Math.random() * matchingWords.length);
+
+  //Restricts alternative pronouciantions from introducing numbers
+  while (containsInteger(matchingWords[randNum])) {
+    randNum = Math.floor(Math.random() * matchingWords.length);
+  }
   return matchingWords[randNum];
 }
 
@@ -63,6 +68,12 @@ function generateHaiku(
     return haikuLine;
   });
   return haiku.join("\n");
+}
+
+// returns true if string contains an integer
+// else false
+function containsInteger(word) {
+  return /\d/.test(word);
 }
 
 /**
